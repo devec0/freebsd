@@ -3183,14 +3183,17 @@ ieee80211_ioctl_set80211(struct ieee80211vap *vap, u_long cmd, struct ieee80211r
 				return EOPNOTSUPP;
 			/* NB: DWDS is used only with ap+sta vaps */
 			if (vap->iv_opmode != IEEE80211_M_HOSTAP &&
+			    vap->iv_opmode != IEEE80211_M_TDMA &&
 			    vap->iv_opmode != IEEE80211_M_STA)
 				return EINVAL;
 			vap->iv_flags |= IEEE80211_F_DWDS;
-			if (vap->iv_opmode == IEEE80211_M_STA)
+			if (vap->iv_opmode == IEEE80211_M_STA ||
+			    vap->iv_opmode == IEEE80211_M_TDMA)
 				vap->iv_flags_ext |= IEEE80211_FEXT_4ADDR;
 		} else {
 			vap->iv_flags &= ~IEEE80211_F_DWDS;
-			if (vap->iv_opmode == IEEE80211_M_STA)
+			if (vap->iv_opmode == IEEE80211_M_STA ||
+			    vap->iv_opmode == IEEE80211_M_TDMA)
 				vap->iv_flags_ext &= ~IEEE80211_FEXT_4ADDR;
 		}
 		break;
